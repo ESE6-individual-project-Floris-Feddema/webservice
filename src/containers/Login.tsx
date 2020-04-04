@@ -3,6 +3,7 @@ import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router';
 import {login} from '../actions/AuthActions';
+import config from '../config.json'
 
 const Login = (props : any) => {
     let googleResponse = (response : any) => {
@@ -11,7 +12,7 @@ const Login = (props : any) => {
             return;
         }
 
-        fetch('config.GOOGLE_AUTH_CALLBACK_URL', {
+        fetch(config.GOOGLE_AUTH_CALLBACK_URL, {
             method: 'POST',
             body: new Blob(
                 [JSON.stringify({ tokenId: response.tokenId }, null, 2)],
@@ -39,7 +40,7 @@ const Login = (props : any) => {
         (
             <div>
                 <GoogleLogin
-                    clientId={'config.GOOGLE_CLIENT_ID'}
+                    clientId={config.GOOGLE_CLIENT_ID}
                     buttonText='Google Login'
                     onSuccess={googleResponse}
                     onFailure={googleResponse}
