@@ -1,4 +1,6 @@
 {
-  "GOOGLE_CLIENT_ID": "887728569855-86m32cbu8m8o72k45p46reusmhccjd10.apps.googleusercontent.com",
-  "GOOGLE_AUTH_CALLBACK_URL": "http://localhost:5000/api/v1/auth/google"
+  "GOOGLE_CLIENT_ID": "xxxx",
+  "GOOGLE_AUTH_CALLBACK_URL": "https://localhost:5001/authentication/google",
+  "MICROSOFT_CLIENT_ID": "xxxxx",
+  "MICROSOFT_CALLBACK_URL": "http://localhost:3000"
 }

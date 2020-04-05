@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router';
 import {login} from '../actions/AuthActions';
 import config from '../config.json'
+// import MicrosoftLogin from "react-microsoft-login";
 
 const Login = (props : any) => {
     let googleResponse = (response : any) => {
@@ -14,20 +15,27 @@ const Login = (props : any) => {
 
         fetch(config.GOOGLE_AUTH_CALLBACK_URL, {
             method: 'POST',
-            body: new Blob(
-                [JSON.stringify({ tokenId: response.tokenId }, null, 2)],
-                { type: 'application/json' }),
+            body: JSON.stringify({ tokenId: response.tokenId }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
             mode: 'cors',
             cache: 'default'
         })
             .then(r => {
                 r.json().then(user => {
                     const token = user.token;
-                    console.log(token);
+                    // console.log(token);
                     props.login(token);
                 });
             })
     };
+
+    // let microsoftResponse = (err : any, data : any) => {
+    //     console.log(data);
+    //     console.log(err);
+    // };
+
 
     let content = props.auth.isAuthenticated ?
         (
@@ -45,6 +53,12 @@ const Login = (props : any) => {
                     onSuccess={googleResponse}
                     onFailure={googleResponse}
                 />
+                {/*<MicrosoftLogin*/}
+                {/*    clientId={config.MICROSOFT_CLIENT_ID}*/}
+                {/*    authCallback={microsoftResponse}*/}
+                {/*    redirectUri={config.MICROSOFT_CALLBACK_URL}*/}
+                {/*/>*/}
+
             </div>
         );
 
