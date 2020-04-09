@@ -112,7 +112,7 @@ const TopNavigation = (props : any) => {
                             Log in
                         </h3>
                     </NavLink>
-                    <NavLink exact className={classes.navLink} to='/login'>
+                    <NavLink exact className={classes.navLink} to='/register'>
                         <h3 className={classes.subtitle} >
                             Sign up
                         </h3>
