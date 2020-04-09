@@ -8,7 +8,6 @@ export function login(token : any) {
 }
 
 export function logout() {
-    console.log('Logging out');
     return (dispath: any) => {
         dispath({
             type: 'LOGOUT',

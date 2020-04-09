@@ -9,24 +9,23 @@ import {Provider} from "react-redux";
 import store from "./store";
 
 function App() {
-  return (
-      <React.StrictMode>
-          <Provider store={store}>
-              <Router>
-                  <div>
-                      <TopNavigation />
-                      <main role="main" className="container">
-                          <Switch>
-                              <Route exact path='/' component={Home} />
-                              <Route path='/login' component={Login} />
-                              <Route path='/logout' component={Logout} />
-                          </Switch>
-                      </main>
-                  </div>
-              </Router>
-          </Provider>
-      </React.StrictMode>
-
+    return (
+        <React.StrictMode >
+            <Provider store={store} >
+                <Router>
+                    <div className={'app-container'}>
+                        <TopNavigation />
+                        <main role="main" className={"container"}>
+                            <Switch>
+                                <Route exact path='/' component={Home} />
+                                <Route path='/login' component={Login} />
+                                <Route path='/logout' component={Logout} />
+                            </Switch>
+                        </main>
+                    </div>
+                </Router>
+            </Provider>
+        </React.StrictMode>
   );
 }
 

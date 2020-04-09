@@ -1,0 +1,28 @@
+.login-form {
+    padding-top: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 200px;
+}
+
+.login-container {
+    background-color: whitesmoke;
+    padding: 50px;
+    border-radius: 25px;
+}
+
+.login-input {
+    align-content: center;
+    text-align: center;
+}
+
+.oauth-input{
+    margin-top: 30px;
+}
+
+.login-field {
+    margin: 10px 10px;
+    width: 250px;
+}
