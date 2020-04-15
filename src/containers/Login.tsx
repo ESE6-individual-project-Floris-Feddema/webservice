@@ -27,7 +27,6 @@ const Login = (props : any) => {
 
     const googleResponse = (response : any) => {
         if (!response.tokenId) {
-            console.error('Unable to get tokenId from Google', response);
             return;
         }
 
@@ -64,9 +63,10 @@ const Login = (props : any) => {
                    <div className={"login-container"}>
                        <div className={"login-input"}>
                            <form >
+                               <h2 style={{marginTop: "0px"}}>Log in</h2>
                                <div className={"login-field"}>
                                    <FormControl variant={"outlined"} fullWidth={true}>
-                                       <InputLabel>Gebruikersnaam</InputLabel>
+                                       <InputLabel>Email</InputLabel>
                                        <OutlinedInput
                                            error={false}
                                            required={true}

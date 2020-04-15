@@ -1,15 +1,14 @@
 import React from 'react';
 import {withRouter, NavLink} from 'react-router-dom';
 import {connect} from "react-redux";
-import {AppBar, createStyles, IconButton, Menu, MenuItem, Theme, Toolbar, Typography} from "@material-ui/core";
+import {AppBar, createStyles, IconButton, Menu, MenuItem, Theme, Toolbar} from "@material-ui/core";
 import {AccountCircle} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
-import {login, logout} from "../actions/AuthActions";
+import {logout} from "../actions/AuthActions";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            // flexGrow: 1,
             background: '#ebf0ff',
         },
         menuButton: {
@@ -21,7 +20,8 @@ const useStyles = makeStyles((theme: Theme) =>
             color: 'gray',
         },
         subtitle: {
-            padding: '10px',
+            paddingLeft: '15px',
+            paddingRight: '15px',
             color: 'gray',
         },
         barSplit: {
@@ -53,13 +53,14 @@ const TopNavigation = (props : any) => {
     };
 
     const logout = () => {
+        handleClose();
         //TODO add login method
         console.log("☠☠ we lost u ☠☠")
         props.logout();
     };
 
     let profile;
-    if (props.auth.isAuthenticated || true){
+    if (props.auth.isAuthenticated){
         profile = (<div>
             <IconButton
                 aria-label="account of current user"
@@ -94,8 +95,18 @@ const TopNavigation = (props : any) => {
     }
 
     let barLogin;
-    if (props.auth.isAuthenticated || true) {
-
+    let barSignup;
+    if (!props.auth.isAuthenticated) {
+        barLogin = <NavLink exact className={classes.navLink} to='/login'>
+            <h3 className={classes.subtitle} >
+                Log in
+            </h3>
+        </NavLink>;
+        barSignup = <NavLink exact className={classes.navLink} to='/register'>
+            <h3 className={classes.subtitle} >
+                Sign up
+            </h3>
+        </NavLink>;
     }
 
     return (
@@ -107,16 +118,8 @@ const TopNavigation = (props : any) => {
                             Plandar
                         </h1>
                     </NavLink>
-                    <NavLink exact className={classes.navLink} to='/login'>
-                        <h3 className={classes.subtitle} >
-                            Log in
-                        </h3>
-                    </NavLink>
-                    <NavLink exact className={classes.navLink} to='/register'>
-                        <h3 className={classes.subtitle} >
-                            Sign up
-                        </h3>
-                    </NavLink>
+                    {barLogin}
+                    {barSignup}
                     <div className={classes.barSplit}/>
                     {profile}
                 </Toolbar>
