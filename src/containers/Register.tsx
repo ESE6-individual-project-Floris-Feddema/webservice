@@ -8,9 +8,14 @@ import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInp
 import './Register.css';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 
+interface IUser {
+    Email
+}
+
 const Register = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);
     const [showPasswordRepeat, setShowPasswordRepeat] = React.useState(false);
+    const [email, setEmail] = React.useState('');
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -24,10 +29,23 @@ const Register = (props : any) => {
         event.preventDefault();
     };
 
-    const login = () => {
-        //TODO add login method
-        const token = "🔥🔥lit hackerman🔥🔥";
-        props.login(token);
+    const register = async () => {
+
+        const options : RequestInit = {
+            method: 'POST',
+            body: JSON.stringify(''),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            cache: 'default'
+        }
+        let response = await fetch(config.SERVICES.AUTHENTICATION, options);
+
+        if (response.status === 200){
+            //TODO Good message
+        }
+        //TODO Bad message
     };
 
     const googleResponse = (response : any) => {
@@ -48,6 +66,7 @@ const Register = (props : any) => {
                 r.json().then(user => {
                     const token = user.token;
                     props.login(token);
+                    //TODO Good message
                 });
             })
     };
@@ -86,6 +105,7 @@ const Register = (props : any) => {
                                             required={true}
                                             type={"text"}
                                             labelWidth={120}
+                                            value={email}
                                         />
                                     </FormControl>
                                 </div>
@@ -96,6 +116,7 @@ const Register = (props : any) => {
                                             error={false}
                                             required={true}
                                             type={showPassword ? "text" : "password"}
+
                                             endAdornment={
                                                 <InputAdornment position="end">
                                                     <IconButton
@@ -136,7 +157,7 @@ const Register = (props : any) => {
                                     </FormControl>
                                 </div>
                                 <div>
-                                    <Button variant={"contained"} size={"large"} onClick={login}>Register</Button>
+                                    <Button variant={"contained"} size={"large"} onClick={register}>Register</Button>
                                 </div>
                             </form>
                         </div>

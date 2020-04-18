@@ -2,5 +2,8 @@
   "GOOGLE_CLIENT_ID": "xxxx",
   "GOOGLE_AUTH_CALLBACK_URL": "https://localhost:5001/authentication/google",
   "MICROSOFT_CLIENT_ID": "xxxxx",
-  "MICROSOFT_CALLBACK_URL": "http://localhost:3000"
+  "MICROSOFT_CALLBACK_URL": "http://localhost:3000",
+  "SERVICES": {
+    "AUTHENTICATION": "http://localhost:5000"
+  }
 }
