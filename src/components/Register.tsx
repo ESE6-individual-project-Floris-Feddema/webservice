@@ -64,6 +64,10 @@ const Register = (props : any) => {
     }
 
     const register = async () => {
+        if (!validateInput()) {
+            return;
+        }
+
         let user : RegisterUser = {
             Email: email,
             Password: password
@@ -86,7 +90,7 @@ const Register = (props : any) => {
 
         let errormsg = await response.body
         setError(
-            <Alert severity="error">errormsg</Alert>
+            <Alert severity="error">{errormsg}</Alert>
         )
     };
 
@@ -132,17 +136,6 @@ const Register = (props : any) => {
                             <form >
                                 {error}
                                 <h2 style={{marginTop: "0px"}}>Sign up</h2>
-                                <div className={"register-field"}>
-                                    <FormControl variant={"outlined"} fullWidth={true}>
-                                        <InputLabel>Naam</InputLabel>
-                                        <OutlinedInput
-                                            error={false}
-                                            required={true}
-                                            type={"text"}
-                                            labelWidth={120}
-                                        />
-                                    </FormControl>
-                                </div>
                                 <div className={"register-field"}>
                                     <FormControl variant={"outlined"} fullWidth={true}>
                                         <InputLabel>Email</InputLabel>
