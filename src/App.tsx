@@ -1,25 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.css';
+import Home from './components/Home';
+import TopNavigation from "./components/TopNavigation";
+import Login from "./containers/Login";
+import Logout from "./containers/Logout";
+import {Provider} from "react-redux";
+import store from "./store";
+import Register from "./containers/Register";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    return (
+        <React.StrictMode >
+            <Provider store={store} >
+                <Router>
+                    <div className={'app-container'}>
+                        <TopNavigation />
+                        <main role="main" className={"container"}>
+                            <Switch>
+                                <Route exact path='/' component={Home} />
+                                <Route path='/login' component={Login} />
+                                <Route path='/logout' component={Logout} />
+                                <Route path='/register' component={Register} />
+                            </Switch>
+                        </main>
+                    </div>
+                </Router>
+            </Provider>
+        </React.StrictMode>
   );
 }
 
