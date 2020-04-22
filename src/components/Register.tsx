@@ -53,7 +53,7 @@ const Register = (props : any) => {
         }
 
         //checks if the given email is valid
-        reg = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+        reg = /b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/;
         if (!email.match(reg)){
             setError(
                 <Alert severity="error">The email is not valid</Alert>
@@ -116,9 +116,21 @@ const Register = (props : any) => {
 
         let errormsg = await reqResponse.body
         setError(
-            <Alert severity="error">errormsg</Alert>
+            <Alert severity="error">{errormsg}</Alert>
         )
     };
+
+    const onEmailChange = (event : any) => {
+        setEmail(event.value);
+    }
+
+    const onPasswordChange = (event : any) => {
+        setPassword(event.value);
+    }
+
+    const onPasswordRepeatChange = (event : any) => {
+        setPasswordRepeat(event.value);
+    }
 
     let content = props.auth.isAuthenticated ?
         (
@@ -145,6 +157,7 @@ const Register = (props : any) => {
                                             type={"text"}
                                             labelWidth={120}
                                             value={email}
+                                            onChange={onEmailChange}
                                         />
                                     </FormControl>
                                 </div>
@@ -169,6 +182,7 @@ const Register = (props : any) => {
                                             }
                                             labelWidth={70}
                                             fullWidth={true}
+                                            onChange={onPasswordChange}
                                         />
                                     </FormControl>
                                 </div>
@@ -192,6 +206,7 @@ const Register = (props : any) => {
                                             }
                                             labelWidth={70}
                                             fullWidth={true}
+                                            onChange={onPasswordRepeatChange}
                                         />
                                     </FormControl>
                                 </div>
