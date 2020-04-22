@@ -6,18 +6,20 @@ import {login} from '../actions/AuthActions';
 import config from '../config.json'
 import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from '@material-ui/core';
 import './Register.css';
-import {Visibility, VisibilityOff} from "@material-ui/icons";
-import {Alert} from "@material-ui/lab";
+import {Visibility, VisibilityOff} from '@material-ui/icons';
+import {Alert} from '@material-ui/lab';
 
 interface RegisterUser {
+    Name: string
     Email: string,
-    Password: string
+    Password: string,
 }
 
 const Register = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);
     const [showPasswordRepeat, setShowPasswordRepeat] = React.useState(false);
     const [email, setEmail] = React.useState('');
+    const [name, setName] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [passwordRepeat, setPasswordRepeat] = React.useState('');
     const [error, setError] = React.useState(<div/>);
@@ -34,7 +36,16 @@ const Register = (props : any) => {
         event.preventDefault();
     };
 
-    const validateInput = (): boolean => {
+    const validateInput = () : boolean => {
+        //check if name is not empty
+        if (name.length === 0){
+            setError(
+                <Alert severity="error">The name is too short</Alert>
+            )
+            return false;
+        }
+
+
         //check if passwords are the same
         if (password !== passwordRepeat){
             setError(
@@ -53,7 +64,7 @@ const Register = (props : any) => {
         }
 
         //checks if the given email is valid
-        reg = /b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/;
+        reg = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/;
         if (!email.match(reg)){
             setError(
                 <Alert severity="error">The email is not valid</Alert>
@@ -69,6 +80,7 @@ const Register = (props : any) => {
         }
 
         let user : RegisterUser = {
+            Name: name,
             Email: email,
             Password: password
         }
@@ -79,16 +91,16 @@ const Register = (props : any) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            mode: 'cors',
-            cache: 'default'
         }
-        let response = await fetch(config.SERVICES.AUTHENTICATION + "/authentication", options);
+        let response = await fetch(config.SERVICES.AUTHENTICATION + '/user', options);
 
         if (response.status === 200){
+            setError(<div/>)
             props.history.push("/");
+            return;
         }
 
-        let errormsg = await response.body
+        let errormsg = await response.text()
         setError(
             <Alert severity="error">{errormsg}</Alert>
         )
@@ -108,29 +120,26 @@ const Register = (props : any) => {
             mode: 'cors',
             cache: 'default'
         }
-        let reqResponse = await fetch(config.SERVICES.AUTHENTICATION + "/authentication/google", options);
+        let reqResponse = await fetch(config.SERVICES.AUTHENTICATION + '/user/google', options);
 
         if (reqResponse.status === 200){
             props.history.push("/");
+            return;
         }
 
-        let errormsg = await reqResponse.body
+        let errormsg = await reqResponse.text()
         setError(
             <Alert severity="error">{errormsg}</Alert>
         )
     };
 
-    const onEmailChange = (event : any) => {
-        setEmail(event.value);
-    }
+    const onEmailChange = (event : any) => setEmail(event.target.value)
 
-    const onPasswordChange = (event : any) => {
-        setPassword(event.value);
-    }
+    const onPasswordChange = (event : any) => setPassword(event.target.value)
 
-    const onPasswordRepeatChange = (event : any) => {
-        setPasswordRepeat(event.value);
-    }
+    const onPasswordRepeatChange = (event : any) => setPasswordRepeat(event.target.value)
+
+    const onNameChange = (event : any) => setName(event.target.value)
 
     let content = props.auth.isAuthenticated ?
         (
@@ -150,17 +159,30 @@ const Register = (props : any) => {
                                 <h2 style={{marginTop: "0px"}}>Sign up</h2>
                                 <div className={"register-field"}>
                                     <FormControl variant={"outlined"} fullWidth={true}>
-                                        <InputLabel>Email</InputLabel>
+                                        <InputLabel>Name</InputLabel>
                                         <OutlinedInput
                                             error={false}
                                             required={true}
                                             type={"text"}
-                                            labelWidth={120}
-                                            value={email}
-                                            onChange={onEmailChange}
+                                            labelWidth={43}
+                                            value={name}
+                                            onChange={onNameChange}
                                         />
                                     </FormControl>
                                 </div>
+                                <div className={"register-field"}>
+                                <FormControl variant={"outlined"} fullWidth={true}>
+                                    <InputLabel>Email</InputLabel>
+                                    <OutlinedInput
+                                        error={false}
+                                        required={true}
+                                        type={"text"}
+                                        labelWidth={43}
+                                        value={email}
+                                        onChange={onEmailChange}
+                                    />
+                                </FormControl>
+                            </div>
                                 <div className={"register-field"}>
                                     <FormControl variant={"outlined"} fullWidth={true}>
                                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
