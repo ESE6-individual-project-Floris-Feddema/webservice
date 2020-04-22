@@ -7,15 +7,20 @@ import config from '../config.json'
 import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from '@material-ui/core';
 import './Register.css';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
+import {Alert} from "@material-ui/lab";
 
-interface IUser {
-    Email
+interface RegisterUser {
+    Email: string,
+    Password: string
 }
 
 const Register = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);
     const [showPasswordRepeat, setShowPasswordRepeat] = React.useState(false);
     const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [passwordRepeat, setPasswordRepeat] = React.useState('');
+    const [error, setError] = React.useState(<div/>);
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -29,31 +34,68 @@ const Register = (props : any) => {
         event.preventDefault();
     };
 
+    const validateInput = (): boolean => {
+        //check if passwords are the same
+        if (password !== passwordRepeat){
+            setError(
+                <Alert severity="error">The passwords do not match</Alert>
+            )
+            return false;
+        }
+
+        //checks if the given password meets criteria
+        let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,32}$/;
+        if (!password.match(reg)){
+            setError(
+                <Alert severity="error">The password does not meet the criteria</Alert>
+            )
+            return false;
+        }
+
+        //checks if the given email is valid
+        reg = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+        if (!email.match(reg)){
+            setError(
+                <Alert severity="error">The email is not valid</Alert>
+            )
+            return false;
+        }
+        return true;
+    }
+
     const register = async () => {
+        let user : RegisterUser = {
+            Email: email,
+            Password: password
+        }
 
         const options : RequestInit = {
             method: 'POST',
-            body: JSON.stringify(''),
+            body: JSON.stringify(user),
             headers: {
                 'Content-Type': 'application/json'
             },
             mode: 'cors',
             cache: 'default'
         }
-        let response = await fetch(config.SERVICES.AUTHENTICATION, options);
+        let response = await fetch(config.SERVICES.AUTHENTICATION + "/authentication", options);
 
         if (response.status === 200){
-            //TODO Good message
+            props.history.push("/");
         }
-        //TODO Bad message
+
+        let errormsg = await response.body
+        setError(
+            <Alert severity="error">errormsg</Alert>
+        )
     };
 
-    const googleResponse = (response : any) => {
+    const googleResponse = async (response : any) => {
         if (!response.tokenId) {
             return;
         }
 
-        fetch(config.GOOGLE_AUTH_CALLBACK_URL, {
+        const options : RequestInit = {
             method: 'POST',
             body: JSON.stringify({ tokenId: response.tokenId }),
             headers: {
@@ -61,14 +103,17 @@ const Register = (props : any) => {
             },
             mode: 'cors',
             cache: 'default'
-        })
-            .then(r => {
-                r.json().then(user => {
-                    const token = user.token;
-                    props.login(token);
-                    //TODO Good message
-                });
-            })
+        }
+        let reqResponse = await fetch(config.SERVICES.AUTHENTICATION + "/authentication/google", options);
+
+        if (reqResponse.status === 200){
+            props.history.push("/");
+        }
+
+        let errormsg = await reqResponse.body
+        setError(
+            <Alert severity="error">errormsg</Alert>
+        )
     };
 
     let content = props.auth.isAuthenticated ?
@@ -85,6 +130,7 @@ const Register = (props : any) => {
                     <div className={"register-container"}>
                         <div className={"register-input"}>
                             <form >
+                                {error}
                                 <h2 style={{marginTop: "0px"}}>Sign up</h2>
                                 <div className={"register-field"}>
                                     <FormControl variant={"outlined"} fullWidth={true}>

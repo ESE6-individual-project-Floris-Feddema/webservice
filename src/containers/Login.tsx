@@ -30,7 +30,7 @@ const Login = (props : any) => {
             return;
         }
 
-        fetch(config.GOOGLE_AUTH_CALLBACK_URL, {
+        fetch(config.SERVICES.AUTHENTICATION + '/authentication/google"', {
             method: 'POST',
             body: JSON.stringify({ tokenId: response.tokenId }),
             headers: {
