@@ -20,10 +20,11 @@ const mapStateToProps = (state : any) => {
 
 const mapDispatchToProps = (dispatch : any) => {
     return {
-        login: () => {
+        login: (token :any) => {
             dispatch(logout());
         }
     }
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Logout));
+// export default Logout;

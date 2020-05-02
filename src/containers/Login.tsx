@@ -7,18 +7,9 @@ import config from '../config.json'
 import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from '@material-ui/core';
 import './Login.css';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
-import {Alert} from "@material-ui/lab";
-
-interface LoginUser {
-    Email: string,
-    Password: string,
-}
 
 const Login = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [error, setError] = React.useState(<div/>);
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -28,74 +19,35 @@ const Login = (props : any) => {
         event.preventDefault();
     };
 
-    const onEmailChange = (event : any) => {
-        setEmail(event.target.value);
-    }
-
-    const onPasswordChange = (event : any) => {
-        setPassword(event.target.value);
-    }
-
-    const login = async () => {
-        let user: LoginUser = {
-            Email: email,
-            Password: password
-        }
-
-        console.log(user);
-
-        const options: RequestInit = {
-            method: 'POST',
-            body: JSON.stringify(user),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }
-        let response = await fetch(config.SERVICES.AUTHENTICATION + '/user/login', options);
-
-        if (response.status === 200) {
-            setError(<div/>)
-            let responseUser = await response.json()
-            props.login(responseUser.Token);
-            props.history.push("/");
-            return;
-        }
-
-        let errormsg = await response.text()
-        setError(
-            <Alert severity="error">
-                {errormsg}
-            </Alert>
-        )
+    const login = () => {
+        //TODO add login method
+        const token = "🔥🔥lit hackerman🔥🔥";
+        props.login(token);
     };
 
-    const googleResponse = async (response: any) => {
+    const googleResponse = (response : any) => {
         if (!response.tokenId) {
             return;
         }
-        const options: RequestInit = {
+
+        fetch(config.SERVICES.AUTHENTICATION + '/authentication/google"', {
             method: 'POST',
-            body: JSON.stringify({tokenId: response.tokenId}),
+            body: JSON.stringify({ tokenId: response.tokenId }),
             headers: {
                 'Content-Type': 'application/json'
             },
             mode: 'cors',
             cache: 'default'
-        }
-        let reqResponse = await fetch(config.SERVICES.AUTHENTICATION + '/user/login/google', options);
-
-        if (reqResponse.status === 200) {
-            let responseUser = await response.json()
-            props.login(responseUser.Token);
-            props.history.push("/");
-            return;
-        }
-
-        let errormsg = await reqResponse.text()
-        setError(
-            <Alert severity="error">{errormsg}</Alert>
-        )
+        })
+            .then(r => {
+                r.json().then(user => {
+                    const token = user.token;
+                    props.login(token);
+                });
+            })
     };
+
+
 
     let content = props.auth.isAuthenticated ?
         (
@@ -111,7 +63,6 @@ const Login = (props : any) => {
                    <div className={"login-container"}>
                        <div className={"login-input"}>
                            <form >
-                               {error}
                                <h2 style={{marginTop: "0px"}}>Log in</h2>
                                <div className={"login-field"}>
                                    <FormControl variant={"outlined"} fullWidth={true}>
@@ -120,8 +71,7 @@ const Login = (props : any) => {
                                            error={false}
                                            required={true}
                                            type={"text"}
-                                           labelWidth={43}
-                                           onChange={onEmailChange}
+                                           labelWidth={120}
                                        />
                                    </FormControl>
                                </div>
@@ -143,7 +93,6 @@ const Login = (props : any) => {
                                                    </IconButton>
                                                </InputAdornment>
                                            }
-                                           onChange={onPasswordChange}
                                            labelWidth={70}
                                            fullWidth={true}
                                        />
