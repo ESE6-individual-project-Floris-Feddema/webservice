@@ -62,7 +62,7 @@ jobs:
         env:
           CONTAINER_IMAGE: docker.pkg.github.com/ese6-individual-project-floris-feddema/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }}
           CONTAINER_IMAGE_LATEST: docker.pkg.github.com/ese6-individual-project-floris-feddema/${{ secrets.REPOSITORY_NAME }}:develop
-        run:
+        run: |
           docker login docker.pkg.github.com -u ${{ secrets.DOCKER_GITHUB_USERNAME }} -p ${{ secrets.GITHUB_TOKEN }}
           docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
           docker push $CONTAINER_IMAGE
