@@ -3,11 +3,11 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
 import TopNavigation from "./components/TopNavigation";
-import Login from "./components/Login";
-import Logout from "./components/Logout";
+import Login from "./containers/Login";
+import Logout from "./containers/Logout";
 import {Provider} from "react-redux";
 import store from "./store";
-import Register from "./components/Register";
+import Register from "./containers/Register";
 
 function App() {
     return (

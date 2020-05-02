@@ -6,20 +6,18 @@ import {login} from '../actions/AuthActions';
 import config from '../config.json'
 import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from '@material-ui/core';
 import './Register.css';
-import {Visibility, VisibilityOff} from '@material-ui/icons';
-import {Alert} from '@material-ui/lab';
+import {Visibility, VisibilityOff} from "@material-ui/icons";
+import {Alert} from "@material-ui/lab";
 
 interface RegisterUser {
-    Name: string
     Email: string,
-    Password: string,
+    Password: string
 }
 
 const Register = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);
     const [showPasswordRepeat, setShowPasswordRepeat] = React.useState(false);
     const [email, setEmail] = React.useState('');
-    const [name, setName] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [passwordRepeat, setPasswordRepeat] = React.useState('');
     const [error, setError] = React.useState(<div/>);
@@ -36,16 +34,7 @@ const Register = (props : any) => {
         event.preventDefault();
     };
 
-    const validateInput = () : boolean => {
-        //check if name is not empty
-        if (name.length === 0){
-            setError(
-                <Alert severity="error">The name is too short</Alert>
-            )
-            return false;
-        }
-
-
+    const validateInput = (): boolean => {
         //check if passwords are the same
         if (password !== passwordRepeat){
             setError(
@@ -64,7 +53,7 @@ const Register = (props : any) => {
         }
 
         //checks if the given email is valid
-        reg = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/;
+        reg = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
         if (!email.match(reg)){
             setError(
                 <Alert severity="error">The email is not valid</Alert>
@@ -75,12 +64,7 @@ const Register = (props : any) => {
     }
 
     const register = async () => {
-        if (!validateInput()) {
-            return;
-        }
-
         let user : RegisterUser = {
-            Name: name,
             Email: email,
             Password: password
         }
@@ -91,18 +75,18 @@ const Register = (props : any) => {
             headers: {
                 'Content-Type': 'application/json'
             },
+            mode: 'cors',
+            cache: 'default'
         }
-        let response = await fetch(config.SERVICES.AUTHENTICATION + '/user', options);
+        let response = await fetch(config.SERVICES.AUTHENTICATION + "/authentication", options);
 
         if (response.status === 200){
-            setError(<div/>)
             props.history.push("/");
-            return;
         }
 
-        let errormsg = await response.text()
+        let errormsg = await response.body
         setError(
-            <Alert severity="error">{errormsg}</Alert>
+            <Alert severity="error">errormsg</Alert>
         )
     };
 
@@ -120,26 +104,17 @@ const Register = (props : any) => {
             mode: 'cors',
             cache: 'default'
         }
-        let reqResponse = await fetch(config.SERVICES.AUTHENTICATION + '/user/google', options);
+        let reqResponse = await fetch(config.SERVICES.AUTHENTICATION + "/authentication/google", options);
 
         if (reqResponse.status === 200){
             props.history.push("/");
-            return;
         }
 
-        let errormsg = await reqResponse.text()
+        let errormsg = await reqResponse.body
         setError(
-            <Alert severity="error">{errormsg}</Alert>
+            <Alert severity="error">errormsg</Alert>
         )
     };
-
-    const onEmailChange = (event : any) => setEmail(event.target.value)
-
-    const onPasswordChange = (event : any) => setPassword(event.target.value)
-
-    const onPasswordRepeatChange = (event : any) => setPasswordRepeat(event.target.value)
-
-    const onNameChange = (event : any) => setName(event.target.value)
 
     let content = props.auth.isAuthenticated ?
         (
@@ -159,30 +134,27 @@ const Register = (props : any) => {
                                 <h2 style={{marginTop: "0px"}}>Sign up</h2>
                                 <div className={"register-field"}>
                                     <FormControl variant={"outlined"} fullWidth={true}>
-                                        <InputLabel>Name</InputLabel>
+                                        <InputLabel>Naam</InputLabel>
                                         <OutlinedInput
                                             error={false}
                                             required={true}
                                             type={"text"}
-                                            labelWidth={43}
-                                            value={name}
-                                            onChange={onNameChange}
+                                            labelWidth={120}
                                         />
                                     </FormControl>
                                 </div>
                                 <div className={"register-field"}>
-                                <FormControl variant={"outlined"} fullWidth={true}>
-                                    <InputLabel>Email</InputLabel>
-                                    <OutlinedInput
-                                        error={false}
-                                        required={true}
-                                        type={"text"}
-                                        labelWidth={43}
-                                        value={email}
-                                        onChange={onEmailChange}
-                                    />
-                                </FormControl>
-                            </div>
+                                    <FormControl variant={"outlined"} fullWidth={true}>
+                                        <InputLabel>Email</InputLabel>
+                                        <OutlinedInput
+                                            error={false}
+                                            required={true}
+                                            type={"text"}
+                                            labelWidth={120}
+                                            value={email}
+                                        />
+                                    </FormControl>
+                                </div>
                                 <div className={"register-field"}>
                                     <FormControl variant={"outlined"} fullWidth={true}>
                                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
@@ -204,7 +176,6 @@ const Register = (props : any) => {
                                             }
                                             labelWidth={70}
                                             fullWidth={true}
-                                            onChange={onPasswordChange}
                                         />
                                     </FormControl>
                                 </div>
@@ -228,7 +199,6 @@ const Register = (props : any) => {
                                             }
                                             labelWidth={70}
                                             fullWidth={true}
-                                            onChange={onPasswordRepeatChange}
                                         />
                                     </FormControl>
                                 </div>
