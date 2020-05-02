@@ -1,0 +1,29 @@
+name: Node.js push on feature branch
+
+on:
+  push:
+    branches: [feature/*]
+
+jobs:
+  build:
+    # The virtual machine that will be used on GitHub
+    runs-on: ubuntu-18.04
+
+    # Run the steps in a Docker container on the virtual machine
+    container:
+      image: node:12.16.2
+    steps:
+      # Checkout Git repository
+      - uses: actions/checkout@v2
+
+      # Install the dependencies needed for the project
+      - name: Install dependencies
+        run: npm ci
+
+      # Build the project
+      - run: npm run build --if-present
+
+      # Test the project
+      - run: npm test
+        env:
+          CI: true
