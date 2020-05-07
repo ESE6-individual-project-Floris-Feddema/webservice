@@ -10,11 +10,14 @@ jobs:
     runs-on: ubuntu-18.04
 
     # Run the steps in a Docker container on the virtual machine
-    container:
-      image: node:12.16.2
+#    container:
+#      image: node:12.16.2
     steps:
       # Checkout Git repository
       - uses: actions/checkout@v2
+
+      - name: get configuration
+        run: gpg --quiet --batch --yes --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output ./src/config.json --decrypt ./src/config.json.gpg
 
       # Install the dependencies needed for the project
       - name: Install dependencies
