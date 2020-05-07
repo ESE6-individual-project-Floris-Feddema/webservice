@@ -18,9 +18,7 @@ jobs:
 
 
       - name: get configuration
-        env:
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: sudo sh ./src/decrypt_secret.sh
+        run: gpg --quiet --batch --yes --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output config.json --decrypt config.json.gpg
 
       # Install the dependencies needed for the project
       - name: Install dependencies
