@@ -1,0 +1,8 @@
+{
+  "GOOGLE_CLIENT_ID": "xxxx",
+  "MICROSOFT_CLIENT_ID": "xxxxx",
+  "MICROSOFT_CALLBACK_URL": "http://localhost:3000",
+  "SERVICES": {
+    "AUTHENTICATION": "http://localhost:5000"
+  }
+}
