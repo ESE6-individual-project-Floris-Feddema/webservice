@@ -8,9 +8,9 @@ jobs:
   build:
     # The virtual machine that will be used on GitHub
     runs-on: ubuntu-18.04
-#    # Run the steps in a Docker container on the virtual machine
-#    container:
-#      image: node:12.16.2
+    # Run the steps in a Docker container on the virtual machine
+    container:
+      image: node:12.16.2
     steps:
       # Checkout Git repository
       - uses: actions/checkout@v2
@@ -64,6 +64,11 @@ jobs:
         with:
           name: dockerfile-artifact
           path: .
+      - name: Upload config artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: config-artifact
+          path: nginx.conf
       # Deliver Docker image to Github packages
       - name: Deliver Docker image
         env:
