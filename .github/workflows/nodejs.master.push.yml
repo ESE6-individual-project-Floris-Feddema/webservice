@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: config-artifact
-          path: nginx.conf
+          path: ./nginx.conf
   deliver:
     needs: build
     runs-on: ubuntu-18.04
@@ -55,6 +55,11 @@ jobs:
         with:
           name: release-artifact
           path: ./build
+      - name: Download config artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: config-artifact
+          path: .
       - name: Download Dockerfile artifact
         uses: actions/download-artifact@v1
         with:
