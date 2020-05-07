@@ -18,10 +18,10 @@ jobs:
 
 
       - name: get configuration
-        run: sh ./src/decrypt_secret.sh
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          
+        run: ./src/decrypt_secret.sh
+
       # Install the dependencies needed for the project
       - name: Install dependencies
         run: npm ci
