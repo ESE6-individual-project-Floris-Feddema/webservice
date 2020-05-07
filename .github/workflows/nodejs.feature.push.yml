@@ -16,9 +16,8 @@ jobs:
       # Checkout Git repository
       - uses: actions/checkout@v2
 
-
       - name: get configuration
-        run: gpg --quiet --batch --yes --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output config.json --decrypt config.json.gpg
+        run: gpg --quiet --batch --yes --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output ./src/config.json --decrypt ./src/config.json.gpg
 
       # Install the dependencies needed for the project
       - name: Install dependencies
