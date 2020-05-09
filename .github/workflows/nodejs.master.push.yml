@@ -55,11 +55,6 @@ jobs:
         with:
           name: dockerfile-artifact
           path: .
-      - name: Download config artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: config-artifact
-          path: nginx.conf
       # Deliver Docker image to Github packages
       - name: Deliver Docker image
         env:
