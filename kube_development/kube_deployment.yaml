@@ -16,7 +16,7 @@ spec:
         app: webservice
     spec:
       containers:
-      - image: docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/develop
+      - image: docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/webservice
         imagePullPolicy: IfNotPresent
         name: webservice
         ports: 
