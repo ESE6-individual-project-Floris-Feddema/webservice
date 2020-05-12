@@ -3,6 +3,7 @@
   "MICROSOFT_CLIENT_ID": "xxxxx",
   "MICROSOFT_CALLBACK_URL": "http://localhost:3000",
   "SERVICES": {
-    "AUTHENTICATION": "http://localhost:5000"
+    "AUTHENTICATION": "http://localhost:5000",
+    "COMPANY": "http://localhost:4999"
   }
 }
