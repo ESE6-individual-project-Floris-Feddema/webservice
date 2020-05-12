@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata: 
+  name: web-ingress
+  namespace: plandar-development
+  annotations: 
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-development"    
+    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  rules:
+  - host: development.plandar.nl
+    http:
+      paths:
+      - backend:
+          serviceName: webservice
+          servicePort: 80
+  tls:
+  - hosts:
+    - development.plandar.nl
+    secretName: development-webservice-plandar-tls
+status:
+  loadBalancer:
+    ingress:
+     - ip: 207.180.252.77
