@@ -101,7 +101,7 @@ jobs:
             ./kube_development/kube_ingress.yaml
             ./kube_development/kube_service.yaml
           images: |
-            docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/develop:${{ github.sha }}
+            docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/webservice:${{ github.sha }}
           imagepullsecrets:
             github-docker-registry
             
