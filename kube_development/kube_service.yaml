@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webservice
+  namespace: plandar-development
+spec:
+  selector:
+    app: webservice
+  ports:
+  - port: 80
+    targetPort: 80

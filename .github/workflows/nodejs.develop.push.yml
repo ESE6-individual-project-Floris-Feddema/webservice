@@ -39,6 +39,11 @@ jobs:
         with:
           name: dockerfile-artifact
           path: ./Dockerfile
+      - name: Upload kubernetes artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: kubernetes-artifact
+          path: ./kube_development
   deliver:
     needs: build
     runs-on: ubuntu-18.04
@@ -57,10 +62,45 @@ jobs:
       # Deliver Docker image to Github packages
       - name: Deliver Docker image
         env:
-          CONTAINER_IMAGE: docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/webservice:${{ github.sha }}
-          CONTAINER_IMAGE_LATEST: docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/webservice:develop
+          CONTAINER_IMAGE: docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/develop:${{ github.sha }}
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}"| docker login docker.pkg.github.com -u ${{ secrets.DOCKER_GITHUB_USERNAME }} --password-stdin
-          docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
+          docker build -t $CONTAINER_IMAGE .
           docker push $CONTAINER_IMAGE
-          docker push $CONTAINER_IMAGE_LATEST
+  deploy:
+    needs: deliver
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Download kubernetes artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: kubernetes-artifact
+          path: ./kube_development
+
+      - uses: Azure/setup-kubectl@v1
+
+      - uses: Azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - uses: Azure/k8s-create-secret@v1
+        with:
+          container-registry-url: docker.pkg.github.com
+          container-registry-username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
+          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
+          secret-name: github-docker-registry
+
+      - uses: Azure/k8s-deploy@v1
+        with:
+          namespace: plandar-development
+          manifests: |
+            ./kube_development/kube_certificate.yaml
+            ./kube_development/kube_deployment.yaml
+            ./kube_development/kube_ingress.yaml
+            ./kube_development/kube_service.yaml
+          images: |
+            docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/develop:${{ github.sha }}
+          imagepullsecrets:
+            github-docker-registry
+            
