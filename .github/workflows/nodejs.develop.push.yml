@@ -86,6 +86,7 @@ jobs:
 
       - uses: Azure/k8s-create-secret@v1
         with:
+          namespace: plandar-development
           container-registry-url: docker.pkg.github.com
           container-registry-username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
