@@ -1,8 +1,10 @@
-export function login(token : any) {
+import User from "../Domain/User";
+
+export function login(user : User) {
     return (dispath: any) => {
         dispath({
             type: 'LOGIN',
-            payload: token
+            payload: user
         });
     }
 }

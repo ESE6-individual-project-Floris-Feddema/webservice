@@ -54,8 +54,6 @@ const TopNavigation = (props : any) => {
 
     const logout = () => {
         handleClose();
-        //TODO add login method
-        console.log("☠☠ we lost u ☠☠")
         props.logout();
     };
 
@@ -118,9 +116,9 @@ const TopNavigation = (props : any) => {
                             Plandar
                         </h1>
                     </NavLink>
+                    <div className={classes.barSplit}/>
                     {barLogin}
                     {barSignup}
-                    <div className={classes.barSplit}/>
                     {profile}
                 </Toolbar>
             </AppBar>
