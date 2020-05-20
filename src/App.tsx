@@ -8,6 +8,9 @@ import Logout from "./components/Logout";
 import {Provider} from "react-redux";
 import store from "./store";
 import Register from "./components/Register";
+import Companies from "./components/Companies";
+import AuthenticatedRoute from "./controls/AuthenticatedRoute";
+import UnauthenticatedRoute from "./controls/UnauthenticatedRoute";
 
 function App() {
     return (
@@ -19,9 +22,10 @@ function App() {
                         <main role="main" className={"container"}>
                             <Switch>
                                 <Route exact path='/' component={Home} />
-                                <Route path='/login' component={Login} />
-                                <Route path='/logout' component={Logout} />
-                                <Route path='/register' component={Register} />
+                                <UnauthenticatedRoute path='/login' component={Login} />
+                                <AuthenticatedRoute path='/logout' component={Logout} />
+                                <UnauthenticatedRoute path='/register' component={Register} />
+                                <AuthenticatedRoute path='/companies' component={Companies} />
                             </Switch>
                         </main>
                     </div>

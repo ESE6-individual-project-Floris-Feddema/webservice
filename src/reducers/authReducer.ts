@@ -1,5 +1,7 @@
+import {initialUserState} from "../Domain/User";
+
 const authReducer = (state = {
-    user: '',
+    user: initialUserState,
     isAuthenticated: false
 }, action : any) => {
     switch (action.type) {
@@ -7,7 +9,7 @@ const authReducer = (state = {
             state = { ...state, user: action.payload, isAuthenticated: true };
             break;
         case 'LOGOUT':
-            state = { ...state, user: '', isAuthenticated: false };
+            state = { ...state, user: initialUserState, isAuthenticated: false };
             break;
         default:
             break;

@@ -8,6 +8,7 @@ import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInp
 import './Login.css';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {Alert} from "@material-ui/lab";
+import User from "../Domain/User";
 
 interface LoginUser {
     Email: string,
@@ -41,8 +42,6 @@ const Login = (props : any) => {
             Email: email,
             Password: password
         }
-
-        console.log(user);
 
         const options: RequestInit = {
             method: 'POST',
@@ -86,7 +85,7 @@ const Login = (props : any) => {
 
         if (reqResponse.status === 200) {
             let responseUser = await response.json()
-            props.login(responseUser.Token);
+            props.login(responseUser);
             props.history.push("/");
             return;
         }
@@ -184,8 +183,8 @@ const mapStateToProps = (state : any) => {
 
 const mapDispatchToProps = (dispatch : any) => {
     return {
-        login: (token :any) => {
-            dispatch(login(token));
+        login: (user :User) => {
+            dispatch(login(user));
         }
     }
 };
