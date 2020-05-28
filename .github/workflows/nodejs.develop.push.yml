@@ -15,7 +15,7 @@ jobs:
       # Checkout Git repository
       - uses: actions/checkout@v2
       - name: Get configuration
-        run: gpg --quiet --batch --yes --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output ./src/config.json --decrypt ./src/config.json.gpg
+        run: gpg --quiet --batch --yes --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output ./src/config.json --decrypt ./src/config.development.json.gpg
 
       # Install the dependencies needed for the project
       - name: Install dependencies
@@ -34,16 +34,25 @@ jobs:
         with:
           name: release-artifact
           path: ./build
+
       - name: Upload Dockerfile artifact
         uses: actions/upload-artifact@v1
         with:
           name: dockerfile-artifact
           path: ./Dockerfile
+
+      - name: Upload nginx config artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: nginx-artifact
+          path: ./nginx.conf
+
       - name: Upload kubernetes artifact
         uses: actions/upload-artifact@v1
         with:
           name: kubernetes-artifact
           path: ./kube_development
+
   deliver:
     needs: build
     runs-on: ubuntu-18.04
@@ -54,12 +63,19 @@ jobs:
         with:
           name: release-artifact
           path: ./build
+
+      - name: Download nginx config artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: nginx-artifact
+          path: ./nginx.conf
+
       - name: Download Dockerfile artifact
         uses: actions/download-artifact@v1
         with:
           name: dockerfile-artifact
           path: .
-      # Deliver Docker image to Github packages
+
       - name: Deliver Docker image
         env:
           CONTAINER_IMAGE: docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/webservice:${{ github.sha }}
