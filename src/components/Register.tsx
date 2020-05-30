@@ -8,12 +8,8 @@ import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInp
 import './Register.css';
 import {Visibility, VisibilityOff} from '@material-ui/icons';
 import {Alert} from '@material-ui/lab';
-
-interface RegisterUser {
-    Name: string
-    Email: string,
-    Password: string,
-}
+import {RegisterGoogle, RegisterPassword} from "../networking/Register";
+import {RegisterUser} from "../domain/RegisterUser";
 
 const Register = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);
@@ -85,14 +81,7 @@ const Register = (props : any) => {
             Password: password
         }
 
-        const options : RequestInit = {
-            method: 'POST',
-            body: JSON.stringify(user),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }
-        let response = await fetch(config.SERVICES.AUTHENTICATION + '/user', options);
+        let response = await RegisterPassword(user);
 
         if (response.status === 200){
             setError(<div/>)
@@ -111,16 +100,7 @@ const Register = (props : any) => {
             return;
         }
 
-        const options : RequestInit = {
-            method: 'POST',
-            body: JSON.stringify({ tokenId: response.tokenId }),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            mode: 'cors',
-            cache: 'default'
-        }
-        let reqResponse = await fetch(config.SERVICES.AUTHENTICATION + '/user/google', options);
+        let reqResponse = await RegisterGoogle(response.tokenId);
 
         if (reqResponse.status === 200){
             props.history.push("/");

@@ -107,6 +107,15 @@ const TopNavigation = (props : any) => {
         </NavLink>;
     }
 
+    let barAuthenticated;
+    if (props.auth.isAuthenticated) {
+        barAuthenticated = <NavLink exact className={classes.navLink} to='/companies'>
+            <h3 className={classes.subtitle} >
+                Companies
+            </h3>
+        </NavLink>;
+    }
+
     return (
         <div className={classes.root}>
             <AppBar className={classes.root} position="static">
@@ -116,6 +125,7 @@ const TopNavigation = (props : any) => {
                             Plandar
                         </h1>
                     </NavLink>
+                    {barAuthenticated}
                     <div className={classes.barSplit}/>
                     {barLogin}
                     {barSignup}

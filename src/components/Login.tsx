@@ -8,12 +8,9 @@ import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInp
 import './Login.css';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {Alert} from "@material-ui/lab";
-import User from "../Domain/User";
-
-interface LoginUser {
-    Email: string,
-    Password: string,
-}
+import User from "../domain/User";
+import {LoginUser} from "../domain/LoginUser";
+import {LoginGoogle, LoginPassword} from "../networking/Login";
 
 const Login = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);
@@ -43,14 +40,7 @@ const Login = (props : any) => {
             Password: password
         }
 
-        const options: RequestInit = {
-            method: 'POST',
-            body: JSON.stringify(user),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }
-        let response = await fetch(config.SERVICES.AUTHENTICATION + '/user/login', options);
+        let response = await LoginPassword(user);
 
         if (response.status === 200) {
             setError(<div/>)
@@ -72,16 +62,8 @@ const Login = (props : any) => {
         if (!response.tokenId) {
             return;
         }
-        const options: RequestInit = {
-            method: 'POST',
-            body: JSON.stringify({tokenId: response.tokenId}),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            mode: 'cors',
-            cache: 'default'
-        }
-        let reqResponse = await fetch(config.SERVICES.AUTHENTICATION + '/user/login/google', options);
+
+        let reqResponse = await LoginGoogle(response.tokenId);
 
         if (reqResponse.status === 200) {
             let responseUser = await response.json()

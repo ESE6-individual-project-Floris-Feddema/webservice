@@ -1,8 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import './Companies.css'
 
 function Companies() {
+    useEffect(() => {
+
+    })
+
+
+
     return (
-        <div>HIER KOMEN COMPANIES</div>
+        <div className={"content"}>HIER KOMEN COMPANIES</div>
     );
 }
 

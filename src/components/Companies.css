@@ -1,0 +1,8 @@
+.content {
+    margin: 50px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #ebf0ff;
+}

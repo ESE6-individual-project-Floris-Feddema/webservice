@@ -1,4 +1,4 @@
-import {initialUserState} from "../Domain/User";
+import {initialUserState} from "../domain/User";
 
 const authReducer = (state = {
     user: initialUserState,

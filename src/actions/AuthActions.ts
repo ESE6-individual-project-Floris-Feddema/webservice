@@ -1,4 +1,4 @@
-import User from "../Domain/User";
+import User from "../domain/User";
 
 export function login(user : User) {
     return (dispath: any) => {
