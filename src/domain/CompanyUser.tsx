@@ -1,9 +1,9 @@
 export default interface CompanyUser {
-    UserId: string,
-    Name: string
+    userId: string,
+    name: string
 }
 
 export const initialCompanyUserState : CompanyUser = {
-    Name: '',
-    UserId: '',
+    userId: '',
+    name: '',
 }
