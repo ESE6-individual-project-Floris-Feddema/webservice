@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 const AuthenticatedRoute = ({Component, auth ,...rest}) => {
     return (
         <Route  {...rest}
-                render={(props) =>
+                render ={(props) =>
                     auth.isAuthenticated === true ?
                         <Component {...props}/> :
                         <Redirect to={"/"}/>}

@@ -1,5 +1,5 @@
 import config from "../config.json";
-import {RegisterUser} from "../domain/RegisterUser";
+import RegisterUser from "../domain/RegisterUser";
 
 export const RegisterGoogle = async (tokenid: string) => {
     const options: RequestInit = {

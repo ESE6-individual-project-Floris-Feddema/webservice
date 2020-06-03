@@ -14,7 +14,7 @@ function Logout (this : any) {
 
 const mapStateToProps = (state : any) => {
     return {
-        auth: state.auth
+        authReducer: state.authReducer
     };
 };
 

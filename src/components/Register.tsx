@@ -9,7 +9,7 @@ import './Register.css';
 import {Visibility, VisibilityOff} from '@material-ui/icons';
 import {Alert} from '@material-ui/lab';
 import {RegisterGoogle, RegisterPassword} from "../networking/Register";
-import {RegisterUser} from "../domain/RegisterUser";
+import RegisterUser from "../domain/RegisterUser";
 
 const Register = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);
@@ -121,7 +121,7 @@ const Register = (props : any) => {
 
     const onNameChange = (event : any) => setName(event.target.value)
 
-    let content = props.auth.isAuthenticated ?
+    let content = props.authReducer.isAuthenticated ?
         (
             <div>
                 <Redirect to={{
@@ -241,7 +241,7 @@ const Register = (props : any) => {
 
 const mapStateToProps = (state : any) => {
     return {
-        auth: state.auth
+        authReducer: state.authReducer
     };
 };
 

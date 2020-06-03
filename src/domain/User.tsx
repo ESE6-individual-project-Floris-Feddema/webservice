@@ -1,13 +1,13 @@
 export default interface User {
-    Id: string
-    Name: string,
-    Email: string,
-    Token: string
+    id: string
+    name: string,
+    email: string,
+    token: string
 }
 
 export const initialUserState : User = {
-    Id: '',
-    Name: '',
-    Email: '',
-    Token: '',
+    id: '',
+    name: '',
+    email: '',
+    token: '',
 }

@@ -58,7 +58,7 @@ const TopNavigation = (props : any) => {
     };
 
     let profile;
-    if (props.auth.isAuthenticated){
+    if (props.authReducer.isAuthenticated){
         profile = (<div>
             <IconButton
                 aria-label="account of current user"
@@ -94,7 +94,7 @@ const TopNavigation = (props : any) => {
 
     let barLogin;
     let barSignup;
-    if (!props.auth.isAuthenticated) {
+    if (!props.authReducer.isAuthenticated) {
         barLogin = <NavLink exact className={classes.navLink} to='/login'>
             <h3 className={classes.subtitle} >
                 Log in
@@ -108,7 +108,7 @@ const TopNavigation = (props : any) => {
     }
 
     let barAuthenticated;
-    if (props.auth.isAuthenticated) {
+    if (props.authReducer.isAuthenticated) {
         barAuthenticated = <NavLink exact className={classes.navLink} to='/companies'>
             <h3 className={classes.subtitle} >
                 Companies
@@ -138,7 +138,7 @@ const TopNavigation = (props : any) => {
 
 const mapStateToProps = (state : any) => {
     return {
-        auth: state.auth
+        authReducer: state.authReducer
     };
 };
 

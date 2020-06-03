@@ -2,14 +2,13 @@ import React from 'react';
 import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router';
-import {login} from '../actions/AuthActions';
 import config from '../config.json'
 import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from '@material-ui/core';
 import './Login.css';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {Alert} from "@material-ui/lab";
 import User from "../domain/User";
-import {LoginUser} from "../domain/LoginUser";
+import LoginUser from "../domain/LoginUser";
 import {LoginGoogle, LoginPassword} from "../networking/Login";
 
 const Login = (props : any) => {
@@ -44,8 +43,8 @@ const Login = (props : any) => {
 
         if (response.status === 200) {
             setError(<div/>)
-            let responseUser = await response.json()
-            props.login(responseUser.Token);
+            let responseUser : User = await response.json();
+            props.login(responseUser);
             props.history.push("/");
             return;
         }
@@ -78,7 +77,7 @@ const Login = (props : any) => {
         )
     };
 
-    let content = props.auth.isAuthenticated ?
+    let content = props.authReducer.isAuthenticated ?
         (
             <div>
                 <Redirect to={{
@@ -159,14 +158,14 @@ const Login = (props : any) => {
 
 const mapStateToProps = (state : any) => {
     return {
-        auth: state.auth
+        authReducer: state.authReducer
     };
 };
 
 const mapDispatchToProps = (dispatch : any) => {
     return {
         login: (user :User) => {
-            dispatch(login(user));
+            dispatch({type: 'LOGIN',payload: user});
         }
     }
 };
