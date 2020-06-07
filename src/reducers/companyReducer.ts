@@ -4,8 +4,11 @@ const companyReducer = (state = {
     company: initialCompanyState,
 }, action : any) => {
     switch (action.type) {
-        case 'SET_COMPANY':
+        case 'SELECT':
             state = { ...state, company: action.payload };
+            break;
+        case 'CLEAR':
+            state = {company: initialCompanyState};
             break;
         default:
             break;

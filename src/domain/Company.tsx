@@ -1,15 +1,15 @@
 import CompanyUser, {initialCompanyUserState} from "./CompanyUser";
 
 export default interface Company {
-    ID: string,
-    Name: string,
-    Owner: CompanyUser,
-    Users: CompanyUser[]
+    id: string,
+    name: string,
+    owner: CompanyUser,
+    users: CompanyUser[]
 }
 
 export const initialCompanyState : Company = {
-    ID: "",
-    Name: "",
-    Owner: initialCompanyUserState,
-    Users: []
+    id: "",
+    name: "",
+    owner: initialCompanyUserState,
+    users: []
 }

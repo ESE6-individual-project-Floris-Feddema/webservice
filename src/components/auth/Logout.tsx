@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router';
-import {logout} from '../actions/AuthActions';
+import {logout} from '../../actions/AuthActions';
+import {clear} from "../../actions/CompanyActions";
 
-function Logout (this : any) {
+function Logout (props : any) {
 
+    props.logout()
     return (
         <div><Redirect to={{
             pathname: '/'
@@ -20,8 +22,9 @@ const mapStateToProps = (state : any) => {
 
 const mapDispatchToProps = (dispatch : any) => {
     return {
-        login: () => {
+        logout: () => {
             dispatch(logout());
+            dispatch(clear());
         }
     }
 };

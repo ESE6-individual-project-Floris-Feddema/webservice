@@ -2,14 +2,15 @@ import React from 'react';
 import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router';
-import config from '../config.json'
+import config from '../../config.json'
 import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from '@material-ui/core';
 import './Login.css';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {Alert} from "@material-ui/lab";
-import User from "../domain/User";
-import LoginUser from "../domain/LoginUser";
-import {LoginGoogle, LoginPassword} from "../networking/Login";
+import User from "../../domain/User";
+import LoginUser from "../../networking/domain/LoginUser";
+import {LoginGoogle, LoginPassword} from "../../networking/Login";
+import {login} from "../../actions/AuthActions";
 
 const Login = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);
@@ -26,7 +27,7 @@ const Login = (props : any) => {
     };
 
     const onEmailChange = (event : any) => {
-        setEmail(event.target.value);
+        setEmail(event.target.value.toLowerCase());
     }
 
     const onPasswordChange = (event : any) => {
@@ -165,7 +166,7 @@ const mapStateToProps = (state : any) => {
 const mapDispatchToProps = (dispatch : any) => {
     return {
         login: (user :User) => {
-            dispatch({type: 'LOGIN',payload: user});
+            dispatch(login(user));
         }
     }
 };

@@ -2,14 +2,13 @@ import React from 'react';
 import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router';
-import {login} from '../actions/AuthActions';
-import config from '../config.json'
+import config from '../../config.json'
 import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from '@material-ui/core';
 import './Register.css';
 import {Visibility, VisibilityOff} from '@material-ui/icons';
 import {Alert} from '@material-ui/lab';
-import {RegisterGoogle, RegisterPassword} from "../networking/Register";
-import RegisterUser from "../domain/RegisterUser";
+import {RegisterGoogle, RegisterPassword} from "../../networking/Register";
+import RegisterUser from "../../networking/domain/RegisterUser";
 
 const Register = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);
@@ -113,7 +112,7 @@ const Register = (props : any) => {
         )
     };
 
-    const onEmailChange = (event : any) => setEmail(event.target.value)
+    const onEmailChange = (event : any) => setEmail(event.target.value.toLowerCase())
 
     const onPasswordChange = (event : any) => setPassword(event.target.value)
 
@@ -245,12 +244,5 @@ const mapStateToProps = (state : any) => {
     };
 };
 
-const mapDispatchToProps = (dispatch : any) => {
-    return {
-        login: (token :any) => {
-            dispatch(login(token));
-        }
-    }
-};
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Register));
+export default withRouter(connect(mapStateToProps)(Register));

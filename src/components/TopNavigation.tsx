@@ -57,6 +57,11 @@ const TopNavigation = (props : any) => {
         props.logout();
     };
 
+    const companies = () => {
+        handleClose();
+        props.history.push("/companies")
+    }
+
     let profile;
     if (props.authReducer.isAuthenticated){
         profile = (<div>
@@ -87,9 +92,19 @@ const TopNavigation = (props : any) => {
                 onClose={handleClose}
             >
                 <MenuItem>Profile</MenuItem>
+                <MenuItem onClick={companies}>Companies</MenuItem>
                 <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
         </div>);
+    }
+
+    let barCompany;
+    if (props.companyReducer.company.name.length !== 0) {
+        barCompany = <NavLink exact className={classes.navLink} to={'/defaultCompany'}>
+            <h3 className={classes.subtitle} >
+                {props.companyReducer.company.name}
+            </h3>
+        </NavLink>;
     }
 
     let barLogin;
@@ -108,13 +123,13 @@ const TopNavigation = (props : any) => {
     }
 
     let barAuthenticated;
-    if (props.authReducer.isAuthenticated) {
-        barAuthenticated = <NavLink exact className={classes.navLink} to='/companies'>
-            <h3 className={classes.subtitle} >
-                Companies
-            </h3>
-        </NavLink>;
-    }
+    // if (props.authReducer.isAuthenticated) {
+    //     barAuthenticated = <NavLink exact className={classes.navLink} to='/companies'>
+    //         <h3 className={classes.subtitle} >
+    //             Companies
+    //         </h3>
+    //     </NavLink>;
+    // }
 
     return (
         <div className={classes.root}>
@@ -127,6 +142,7 @@ const TopNavigation = (props : any) => {
                     </NavLink>
                     {barAuthenticated}
                     <div className={classes.barSplit}/>
+                    {barCompany}
                     {barLogin}
                     {barSignup}
                     {profile}
@@ -138,7 +154,8 @@ const TopNavigation = (props : any) => {
 
 const mapStateToProps = (state : any) => {
     return {
-        authReducer: state.authReducer
+        authReducer: state.authReducer,
+        companyReducer: state.companyReducer
     };
 };
 
