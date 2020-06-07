@@ -1,0 +1,61 @@
+.content {
+    margin: 50px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #ebf0ff;
+}
+
+.company-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.company-items {
+    padding: 10px;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+}
+
+.user-container {
+    width: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.user-table {
+    max-height: 300px;
+}
+
+.column {
+    min-width: 50px;
+}
+
+.add-container {
+    padding-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.email-input {
+    width: 280px;
+}
+
+.notification {
+    margin-bottom: 15px;
+}

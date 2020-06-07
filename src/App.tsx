@@ -3,14 +3,15 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
 import TopNavigation from "./components/TopNavigation";
-import Login from "./components/Login";
-import Logout from "./components/Logout";
+import Login from "./components/auth/Login";
+import Logout from "./components/auth/Logout";
 import {Provider} from "react-redux";
 import store from "./store";
-import Register from "./components/Register";
-import Companies from "./components/Companies";
+import Register from "./components/auth/Register";
+import Companies from "./components/companies/Companies";
 import AuthenticatedRoute from "./controls/AuthenticatedRoute";
 import UnauthenticatedRoute from "./controls/UnauthenticatedRoute";
+import CompanyOverview from "./components/companies/CompanyOverview";
 
 function App() {
     return (
@@ -25,7 +26,8 @@ function App() {
                                 <UnauthenticatedRoute path='/login' component={Login} />
                                 <AuthenticatedRoute path='/logout' component={Logout} />
                                 <UnauthenticatedRoute path='/register' component={Register} />
-                                <AuthenticatedRoute path='/companies' component={Companies} />
+                                <AuthenticatedRoute exact path='/companies' component={Companies} />
+                                <AuthenticatedRoute path='/defaultCompany' component={CompanyOverview} />
                             </Switch>
                         </main>
                     </div>

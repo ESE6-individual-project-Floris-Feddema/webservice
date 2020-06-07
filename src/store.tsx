@@ -1,10 +1,12 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-import auth from './reducers/authReducer';
+import authReducer from "./reducers/authReducer";
+import companyReducer from "./reducers/companyReducer";
 
 const store = createStore(combineReducers({
-        auth
+        authReducer,
+        companyReducer
     }),
     loadFromLocalStorage(),
     applyMiddleware(createLogger(), thunk)

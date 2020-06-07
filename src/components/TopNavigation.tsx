@@ -57,8 +57,13 @@ const TopNavigation = (props : any) => {
         props.logout();
     };
 
+    const companies = () => {
+        handleClose();
+        props.history.push("/companies")
+    }
+
     let profile;
-    if (props.auth.isAuthenticated){
+    if (props.authReducer.isAuthenticated){
         profile = (<div>
             <IconButton
                 aria-label="account of current user"
@@ -87,14 +92,24 @@ const TopNavigation = (props : any) => {
                 onClose={handleClose}
             >
                 <MenuItem>Profile</MenuItem>
+                <MenuItem onClick={companies}>Companies</MenuItem>
                 <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
         </div>);
     }
 
+    let barCompany;
+    if (props.companyReducer.company.name.length !== 0) {
+        barCompany = <NavLink exact className={classes.navLink} to={'/defaultCompany'}>
+            <h3 className={classes.subtitle} >
+                {props.companyReducer.company.name}
+            </h3>
+        </NavLink>;
+    }
+
     let barLogin;
     let barSignup;
-    if (!props.auth.isAuthenticated) {
+    if (!props.authReducer.isAuthenticated) {
         barLogin = <NavLink exact className={classes.navLink} to='/login'>
             <h3 className={classes.subtitle} >
                 Log in
@@ -107,6 +122,15 @@ const TopNavigation = (props : any) => {
         </NavLink>;
     }
 
+    let barAuthenticated;
+    // if (props.authReducer.isAuthenticated) {
+    //     barAuthenticated = <NavLink exact className={classes.navLink} to='/companies'>
+    //         <h3 className={classes.subtitle} >
+    //             Companies
+    //         </h3>
+    //     </NavLink>;
+    // }
+
     return (
         <div className={classes.root}>
             <AppBar className={classes.root} position="static">
@@ -116,7 +140,9 @@ const TopNavigation = (props : any) => {
                             Plandar
                         </h1>
                     </NavLink>
+                    {barAuthenticated}
                     <div className={classes.barSplit}/>
+                    {barCompany}
                     {barLogin}
                     {barSignup}
                     {profile}
@@ -128,7 +154,8 @@ const TopNavigation = (props : any) => {
 
 const mapStateToProps = (state : any) => {
     return {
-        auth: state.auth
+        authReducer: state.authReducer,
+        companyReducer: state.companyReducer
     };
 };
 

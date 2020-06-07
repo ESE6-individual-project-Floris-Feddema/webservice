@@ -1,7 +1,7 @@
 {
   "GOOGLE_CLIENT_ID": "",
   "SERVICES": {
-    "AUTHENTICATION": "http://localhost:5000",
-    "COMPANY": "http://localhost:4999"
+    "AUTHENTICATION": "https://authentication.development.plandar.nl",
+    "COMPANY": "https://company.development.plandar.nl"
   }
 }

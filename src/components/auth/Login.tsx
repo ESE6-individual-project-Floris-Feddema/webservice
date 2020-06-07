@@ -2,18 +2,15 @@ import React from 'react';
 import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router';
-import {login} from '../actions/AuthActions';
-import config from '../config.json'
+import config from '../../config.json'
 import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from '@material-ui/core';
 import './Login.css';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {Alert} from "@material-ui/lab";
-import User from "../Domain/User";
-
-interface LoginUser {
-    Email: string,
-    Password: string,
-}
+import User from "../../domain/User";
+import LoginUser from "../../networking/domain/LoginUser";
+import {LoginGoogle, LoginPassword} from "../../networking/Login";
+import {login} from "../../actions/AuthActions";
 
 const Login = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);
@@ -30,7 +27,7 @@ const Login = (props : any) => {
     };
 
     const onEmailChange = (event : any) => {
-        setEmail(event.target.value);
+        setEmail(event.target.value.toLowerCase());
     }
 
     const onPasswordChange = (event : any) => {
@@ -43,19 +40,12 @@ const Login = (props : any) => {
             Password: password
         }
 
-        const options: RequestInit = {
-            method: 'POST',
-            body: JSON.stringify(user),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }
-        let response = await fetch(config.SERVICES.AUTHENTICATION + '/user/login', options);
+        let response = await LoginPassword(user);
 
         if (response.status === 200) {
             setError(<div/>)
-            let responseUser = await response.json()
-            props.login(responseUser.Token);
+            let responseUser : User = await response.json();
+            props.login(responseUser);
             props.history.push("/");
             return;
         }
@@ -72,16 +62,8 @@ const Login = (props : any) => {
         if (!response.tokenId) {
             return;
         }
-        const options: RequestInit = {
-            method: 'POST',
-            body: JSON.stringify({tokenId: response.tokenId}),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            mode: 'cors',
-            cache: 'default'
-        }
-        let reqResponse = await fetch(config.SERVICES.AUTHENTICATION + '/user/login/google', options);
+
+        let reqResponse = await LoginGoogle(response.tokenId);
 
         if (reqResponse.status === 200) {
             let responseUser = await response.json()
@@ -96,7 +78,7 @@ const Login = (props : any) => {
         )
     };
 
-    let content = props.auth.isAuthenticated ?
+    let content = props.authReducer.isAuthenticated ?
         (
             <div>
                 <Redirect to={{
@@ -177,7 +159,7 @@ const Login = (props : any) => {
 
 const mapStateToProps = (state : any) => {
     return {
-        auth: state.auth
+        authReducer: state.authReducer
     };
 };
 
