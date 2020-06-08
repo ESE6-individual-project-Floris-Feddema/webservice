@@ -4,7 +4,28 @@ on:
   push:
     branches: [develop]
 
+env:
+  WEBSITE_URL: https://development.plandar.nl
+
 jobs:
+  sonar:
+    # The virtual machine that will be used on GitHub
+    runs-on: ubuntu-18.04
+
+    #     Run the steps in a Docker container on the virtual machine
+    container:
+      image: node:12.16.2
+    steps:
+      # Checkout Git repository
+      - uses: actions/checkout@v2
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   build:
     # The virtual machine that will be used on GitHub
     runs-on: ubuntu-18.04
@@ -54,7 +75,7 @@ jobs:
           path: ./kube_development
 
   deliver:
-    needs: build
+    needs: [build, sonar]
     runs-on: ubuntu-18.04
     steps:
       # Download artifacts from GitHub workflow to use in this job
@@ -121,4 +142,12 @@ jobs:
             docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/webservice:${{ github.sha }}
           imagepullsecrets:
             github-docker-registry
-            
+  lighthouse-check:
+    needs: deploy
+    runs-on: ubuntu-18.04
+    name: Lighthouse check
+    steps:
+      - name: Run Lighthouse check
+        uses: foo-software/lighthouse-check-action@master
+        with:
+          urls: ${{ env.WEBSITE_URL }}
