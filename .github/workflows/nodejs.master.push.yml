@@ -111,4 +111,3 @@ jobs:
           docker_name: 'owasp/zap2docker-stable'
           target: ${{ env.WEBSITE_URL }}
           rules_file_name: 'zaprules.tsv'
-          cmd_options: '-a'
