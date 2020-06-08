@@ -4,6 +4,9 @@ on:
   push:
     branches: [develop]
 
+env:
+  WEBSITE_URL: https://development.plandar.nl
+
 jobs:
   sonar:
     # The virtual machine that will be used on GitHub
@@ -139,4 +142,12 @@ jobs:
             docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/webservice:${{ github.sha }}
           imagepullsecrets:
             github-docker-registry
-            
+  lighthouse-check:
+    needs: deploy
+    runs-on: ubuntu-18.04
+    name: Lighthouse check
+    steps:
+      - name: Run Lighthouse check
+        uses: foo-software/lighthouse-check-action@master
+        with:
+          urls: ${{ env.WEBSITE_URL }}

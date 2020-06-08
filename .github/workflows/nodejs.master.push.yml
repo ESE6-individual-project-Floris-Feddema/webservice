@@ -4,6 +4,9 @@ on:
   push:
     branches: [master]
 
+env:
+  WEBSITE_URL: https://plandar.nl
+
 jobs:
   sonar:
     # The virtual machine that will be used on GitHub
@@ -83,3 +86,12 @@ jobs:
           docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
           docker push $CONTAINER_IMAGE
           docker push $CONTAINER_IMAGE_LATEST
+  lighthouse-check:
+    needs: deploy
+    runs-on: ubuntu-18.04
+    name: Lighthouse check
+    steps:
+      - name: Run Lighthouse check
+        uses: foo-software/lighthouse-check-action@master
+        with:
+          urls: ${{ env.WEBSITE_URL }}
