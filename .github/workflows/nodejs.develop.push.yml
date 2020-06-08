@@ -35,6 +35,7 @@ jobs:
     steps:
       # Checkout Git repository
       - uses: actions/checkout@v2
+
       - name: Get configuration
         run: gpg --quiet --batch --yes --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output ./src/config.json --decrypt ./src/config.development.json.gpg
 
@@ -104,6 +105,7 @@ jobs:
           echo "${{ secrets.GITHUB_TOKEN }}"| docker login docker.pkg.github.com -u ${{ secrets.DOCKER_GITHUB_USERNAME }} --password-stdin
           docker build -t $CONTAINER_IMAGE .
           docker push $CONTAINER_IMAGE
+
   deploy:
     needs: deliver
     runs-on: ubuntu-18.04
@@ -142,6 +144,7 @@ jobs:
             docker.pkg.github.com/ese6-individual-project-floris-feddema/webservice/webservice:${{ github.sha }}
           imagepullsecrets:
             github-docker-registry
+
   lighthouse-check:
     needs: deploy
     runs-on: ubuntu-18.04
@@ -151,3 +154,13 @@ jobs:
         uses: foo-software/lighthouse-check-action@master
         with:
           urls: ${{ env.WEBSITE_URL }}
+
+  zap-scan:
+    needs: deploy
+    runs-on: ubuntu-18.04
+    name: OWASP ZAP Baseline scan
+    steps:
+      - name: Run OWASP ZAP baseline scan
+        uses: zaproxy/action-baseline@v0.3.0
+        with:
+          target: ${{ env.WEBSITE_URL }}
