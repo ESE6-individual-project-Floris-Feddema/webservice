@@ -1,5 +1,6 @@
 name: Node.js push on feature branch
 
+
 on:
   push:
     branches: [feature/*]
@@ -49,13 +50,3 @@ jobs:
       - run: npm test
         env:
           CI: true
-
-  zap-scan:
-    needs: deploy
-    runs-on: ubuntu-18.04
-    name: OWASP ZAP Baseline scan
-    steps:
-      - name: Run OWASP ZAP baseline scan
-        uses: zaproxy/action-baseline@v0.3.0
-        with:
-          target: ${{ env.WEBSITE_URL }}
