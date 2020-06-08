@@ -16,6 +16,14 @@ jobs:
       # Checkout Git repository
       - uses: actions/checkout@v2
 
+      - name: SonarCloud Scan
+      - uses: sonarsource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Get configuration
         run: gpg --quiet --batch --yes --passphrase="${{ secrets.GPG_PASSPHRASE }}" --output ./src/config.json --decrypt ./src/config.json.gpg
 
