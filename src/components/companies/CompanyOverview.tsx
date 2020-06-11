@@ -15,9 +15,10 @@ import {
 } from "@material-ui/core";
 import './CompanyOverview.css'
 import {Delete} from "@material-ui/icons";
-import {GetCompany, UpdateCompany} from "../../networking/Company";
+import {DeleteCompanyUser, GetCompany, UpdateCompany} from "../../networking/Company";
 import {GetUser} from "../../networking/User";
 import {Alert} from "@material-ui/lab";
+import CompanyUser from "../../domain/CompanyUser";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -51,7 +52,7 @@ const CompanyOverview = (props: any) => {
     }
 
     useEffect(() => {
-        updateCompany().then(() => {});
+        updateCompany();
         // eslint-disable-next-line
     }, [])
 
@@ -116,6 +117,21 @@ const CompanyOverview = (props: any) => {
         }
     }
 
+    const onDeleteUserClick = async (user: CompanyUser) => {
+        let result = await DeleteCompanyUser(company ,user);
+        if (result.status >= 400){
+            let text = await result.text();
+            setNotification( <Alert severity="error" className={"notification"} >
+                {text}
+            </Alert>)
+        } else {
+            setNotification( <Alert severity="success" className={"notification"} >
+                {user.name} is removed from the company!
+            </Alert>)
+        }
+    }
+
+
     let userForm = <div className={"user-container"}>
         <TableContainer className={"user-table"} >
             <Table stickyHeader aria-label="simple table">
@@ -130,7 +146,7 @@ const CompanyOverview = (props: any) => {
                         <StyledTableRow key={row.userId} >
                             <StyledTableCell size="small">
                                 <Tooltip  title={'Delete'}>
-                                    <IconButton onClick={() => {console.log(row)}} size="small">
+                                    <IconButton onClick={() => {onDeleteUserClick(row)}} size="small">
                                         <Delete/>
                                     </IconButton>
                                 </Tooltip>

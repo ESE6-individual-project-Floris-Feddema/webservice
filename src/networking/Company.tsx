@@ -1,6 +1,7 @@
 import config from "../config.json";
 import CreateCompanyObject from "./domain/CreateCompanyObject";
 import Company from "../domain/Company";
+import CompanyUser from "../domain/CompanyUser";
 
 export const UserCompanies = async (userId: string) => {
     const options: RequestInit = {
@@ -62,5 +63,17 @@ export const UpdateCompany = async (company: Company) => {
         cache: 'default'
     }
     return await fetch(config.SERVICES.COMPANY + '/company/' + company.id, options)
+}
+
+export const DeleteCompanyUser = async (company: Company, user: CompanyUser) => {
+    const options: RequestInit= {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        mode: 'cors',
+        cache: 'default'
+    }
+    return await fetch(config.SERVICES.COMPANY + '/user/' + company.id + '/' + user.userId, options)
 
 }

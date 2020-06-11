@@ -3,7 +3,7 @@ import './Home.css';
 
 function Home() {
     return (
-        <div className={"container"}>
+        <div className={"content"}>
             Release notes - Plandar - Version plandar-0.1
             <h2>Story</h2>
             <ul>
