@@ -5,6 +5,8 @@
     align-items: center;
     flex-direction: column;
     background-color: #ebf0ff;
+    max-height: 750px;
+    overflow-y: scroll;
 }
 
 .company-details {

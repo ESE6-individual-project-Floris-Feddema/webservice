@@ -12,6 +12,7 @@ import Companies from "./components/companies/Companies";
 import AuthenticatedRoute from "./controls/AuthenticatedRoute";
 import UnauthenticatedRoute from "./controls/UnauthenticatedRoute";
 import CompanyOverview from "./components/companies/CompanyOverview";
+import ReleaseNotes from "./components/general/ReleaseNotes";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                                 <UnauthenticatedRoute path='/register' component={Register} />
                                 <AuthenticatedRoute exact path='/companies' component={Companies} />
                                 <AuthenticatedRoute path='/defaultCompany' component={CompanyOverview} />
+                                <UnauthenticatedRoute path='/releaseNotes' component={ReleaseNotes} />
                             </Switch>
                         </main>
                     </div>
