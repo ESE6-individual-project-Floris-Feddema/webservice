@@ -155,17 +155,17 @@ jobs:
         with:
           urls: ${{ env.WEBSITE_URL }}
 
-  zap-scan:
-    needs: deploy
-    runs-on: ubuntu-18.04
-    name: OWASP ZAP Baseline scan
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Run OWASP ZAP baseline scan
-        uses: zaproxy/action-baseline@v0.3.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          docker_name: 'owasp/zap2docker-stable'
-          target: ${{ env.WEBSITE_URL }}
-          rules_file_name: 'zaprules.tsv'
+#  zap-scan:
+#    needs: deploy
+#    runs-on: ubuntu-18.04
+#    name: OWASP ZAP Baseline scan
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Run OWASP ZAP baseline scan
+#        uses: zaproxy/action-baseline@v0.3.0
+#        with:
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          docker_name: 'owasp/zap2docker-stable'
+#          target: ${{ env.WEBSITE_URL }}
+#          rules_file_name: 'zaprules.tsv'
