@@ -15,10 +15,11 @@ import {
 } from "@material-ui/core";
 import './CompanyOverview.css'
 import {Delete} from "@material-ui/icons";
-import {DeleteCompanyUser, GetCompany, UpdateCompany} from "../../networking/Company";
+import {AddCompanyUser, DeleteCompanyUser, GetCompany, UpdateCompany} from "../../networking/Company";
 import {GetUser} from "../../networking/User";
 import {Alert} from "@material-ui/lab";
 import CompanyUser from "../../domain/CompanyUser";
+import User from "../../domain/User";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -109,7 +110,18 @@ const CompanyOverview = (props: any) => {
                 {text}
             </Alert>)
         } else {
-            let json = await result.json();
+            let json : User = await result.json();
+
+            result = await AddCompanyUser(company, json);
+            if (result.status >= 400){
+                let text = await result.text();
+                setNotification( <Alert severity="error" className={"notification"} >
+                    {text}
+                </Alert>)
+                return;
+            }
+
+            await updateCompany();
             setNotification( <Alert severity="success" className={"notification"} >
                 {json.name} is added to the company!
             </Alert>)
@@ -125,12 +137,12 @@ const CompanyOverview = (props: any) => {
                 {text}
             </Alert>)
         } else {
+            await updateCompany();
             setNotification( <Alert severity="success" className={"notification"} >
                 {user.name} is removed from the company!
             </Alert>)
         }
     }
-
 
     let userForm = <div className={"user-container"}>
         <TableContainer className={"user-table"} >
