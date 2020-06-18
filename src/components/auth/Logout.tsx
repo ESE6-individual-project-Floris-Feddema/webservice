@@ -5,8 +5,9 @@ import {logout} from '../../actions/AuthActions';
 import {clear} from "../../actions/CompanyActions";
 
 function Logout (props : any) {
-
-    props.logout()
+    console.log("aaaaaaaaaaaaaaaaaaaa")
+    props.clearStore();
+    props.logout();
     return (
         <div><Redirect to={{
             pathname: '/'
@@ -24,6 +25,8 @@ const mapDispatchToProps = (dispatch : any) => {
     return {
         logout: () => {
             dispatch(logout());
+        },
+        clearStore: () => {
             dispatch(clear());
         }
     }

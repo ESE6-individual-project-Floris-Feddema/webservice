@@ -8,7 +8,7 @@ const companyReducer = (state = {
             state = { ...state, company: action.payload };
             break;
         case 'CLEAR':
-            state = {company: initialCompanyState};
+            state = {...state, company: initialCompanyState};
             break;
         default:
             break;
