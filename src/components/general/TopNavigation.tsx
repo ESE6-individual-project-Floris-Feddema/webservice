@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {AppBar, createStyles, IconButton, Menu, MenuItem, Theme, Toolbar} from "@material-ui/core";
 import {AccountCircle} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
-import {logout} from "../actions/AuthActions";
+import {logout} from "../../actions/AuthActions";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -54,7 +54,8 @@ const TopNavigation = (props : any) => {
 
     const logout = () => {
         handleClose();
-        props.logout();
+        props.history.push("/logout");
+        // props.logout();
     };
 
     const companies = () => {

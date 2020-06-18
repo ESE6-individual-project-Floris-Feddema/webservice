@@ -1,8 +1,8 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.css';
-import Home from './components/Home';
-import TopNavigation from "./components/TopNavigation";
+import Home from './components/general/Home';
+import TopNavigation from "./components/general/TopNavigation";
 import Login from "./components/auth/Login";
 import Logout from "./components/auth/Logout";
 import {Provider} from "react-redux";
