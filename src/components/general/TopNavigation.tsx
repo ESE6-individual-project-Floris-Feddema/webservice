@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import {AppBar, createStyles, IconButton, Menu, MenuItem, Theme, Toolbar} from "@material-ui/core";
 import {AccountCircle} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
-import {logout} from "../../actions/AuthActions";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -55,7 +54,6 @@ const TopNavigation = (props : any) => {
     const logout = () => {
         handleClose();
         props.history.push("/logout");
-        // props.logout();
     };
 
     const companies = () => {
@@ -100,12 +98,18 @@ const TopNavigation = (props : any) => {
     }
 
     let barCompany;
+    let barPlanning;
     if (props.companyReducer.company.name.length !== 0) {
         barCompany = <NavLink exact className={classes.navLink} to={'/defaultCompany'}>
             <h3 className={classes.subtitle} >
                 {props.companyReducer.company.name}
             </h3>
         </NavLink>;
+        barPlanning = <NavLink exact className={classes.navLink} to={'/plannings'}>
+            <h3 className={classes.subtitle}>
+                Planning
+            </h3>
+        </NavLink>
     }
 
     let barLogin;
@@ -123,15 +127,6 @@ const TopNavigation = (props : any) => {
         </NavLink>;
     }
 
-    let barAuthenticated;
-    // if (props.authReducer.isAuthenticated) {
-    //     barAuthenticated = <NavLink exact className={classes.navLink} to='/companies'>
-    //         <h3 className={classes.subtitle} >
-    //             Companies
-    //         </h3>
-    //     </NavLink>;
-    // }
-
     return (
         <div className={classes.root}>
             <AppBar className={classes.root} position="static">
@@ -141,7 +136,7 @@ const TopNavigation = (props : any) => {
                             Plandar
                         </h1>
                     </NavLink>
-                    {barAuthenticated}
+                    {barPlanning}
                     <div className={classes.barSplit}/>
                     {barCompany}
                     {barLogin}
@@ -162,9 +157,7 @@ const mapStateToProps = (state : any) => {
 
 const mapDispatchToProps = (dispatch : any) => {
     return {
-        logout: () => {
-            dispatch(logout());
-        }
+
     }
 };
 

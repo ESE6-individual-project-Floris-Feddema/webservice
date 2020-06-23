@@ -10,7 +10,7 @@ import {Alert} from "@material-ui/lab";
 import User from "../../domain/User";
 import LoginUser from "../../networking/domain/LoginUser";
 import {LoginGoogle, LoginPassword} from "../../networking/Login";
-import {login} from "../../actions/AuthActions";
+import {login} from "../../reducers/actions/AuthActions";
 
 const Login = (props : any) => {
     const [showPassword, setShowPassword] = React.useState(false);

@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router';
-import {logout} from '../../actions/AuthActions';
-import {clear} from "../../actions/CompanyActions";
+import {logout} from '../../reducers/actions/AuthActions';
+import {clear} from "../../reducers/actions/CompanyActions";
 
 function Logout (props : any) {
-    console.log("aaaaaaaaaaaaaaaaaaaa")
     props.clearStore();
     props.logout();
     return (

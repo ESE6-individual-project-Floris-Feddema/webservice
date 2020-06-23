@@ -17,7 +17,7 @@ import {
 import Company, {initialCompanyState} from "../../domain/Company";
 import {Delete, HowToReg} from '@material-ui/icons'
 import {Alert} from "@material-ui/lab";
-import {select} from "../../actions/CompanyActions";
+import {select} from "../../reducers/actions/CompanyActions";
 import CreateCompanyObject from "../../networking/domain/CreateCompanyObject";
 import CompanyUser from "../../domain/CompanyUser";
 
@@ -196,7 +196,7 @@ const Companies = (props: any) =>  {
 
 
     return (
-        <div className={"content"}>
+        <div className={"companiesContent"}>
             {error}
             {removeDialog}
             {newCompany}

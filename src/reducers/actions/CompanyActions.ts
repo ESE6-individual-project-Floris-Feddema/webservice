@@ -1,4 +1,4 @@
-import Company from "../domain/Company";
+import Company from "../../domain/Company";
 
 export function clear() {
     return {

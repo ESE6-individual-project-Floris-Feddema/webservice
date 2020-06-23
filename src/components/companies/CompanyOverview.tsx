@@ -1,4 +1,4 @@
-import {select} from "../../actions/CompanyActions";
+import {select} from "../../reducers/actions/CompanyActions";
 import {Redirect, withRouter} from "react-router";
 import {connect} from "react-redux";
 import React, {useEffect, useState} from 'react';

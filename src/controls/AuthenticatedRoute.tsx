@@ -3,11 +3,11 @@ import {Redirect, Route} from 'react-router-dom';
 import {connect} from "react-redux";
 
 // @ts-ignore
-const AuthenticatedRoute = ({Component, auth ,...rest}) => {
+const AuthenticatedRoute = ({Component, authReducer ,...rest}) => {
     return (
         <Route  {...rest}
                 render ={(props) =>
-                    auth.isAuthenticated === true ?
+                    authReducer.isAuthenticated === true ?
                         <Component {...props}/> :
                         <Redirect to={"/"}/>}
         />
@@ -16,7 +16,7 @@ const AuthenticatedRoute = ({Component, auth ,...rest}) => {
 
 const mapStateToProps = (state : any) => {
     return {
-        auth: state.auth
+        authReducer: state.authReducer
     };
 };
 

@@ -1,4 +1,4 @@
-.companiesContent {
+.planningContent {
     margin: 50px;
     min-height: 100px;
     display: flex;
@@ -6,8 +6,8 @@
     flex-direction: column;
     background-color: #ebf0ff;
     max-height: 750px;
+    /*overflow-y: scroll;*/
     overflow: hidden;
-    overflow-y: scroll;
 }
 
 .loader {
@@ -26,10 +26,15 @@
     justify-content: space-evenly;
     width: 100%;
     min-width: 400px;
+    align-items: center;
 }
 
 .name-item {
     width: 250px;
+}
+
+.date-item {
+    width: 200px;
 }
 
 .button-item {

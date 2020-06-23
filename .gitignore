@@ -392,3 +392,4 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/osx,git,web,node,react,linux,macos,sonar,windows,webstorm,jetbrains,sonarqube,visualstudiocode
 src/config.development.json
+src/config.production.json

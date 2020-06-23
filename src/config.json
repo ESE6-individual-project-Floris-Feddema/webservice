@@ -2,6 +2,18 @@
   "GOOGLE_CLIENT_ID": "",
   "SERVICES": {
     "AUTHENTICATION": "https://authentication.development.plandar.nl",
-    "COMPANY": "https://company.development.plandar.nl"
+    "COMPANY": "https://company.development.plandar.nl",
+    "PLANNING" : {
+      "ADDAVAILABILITY": "https://plandar-planning.azurewebsites.net/api/planning/availability/",
+      "CREATEPLANNING": "https://plandar-planning.azurewebsites.net/api/planning",
+      "DELETEPLANNING": "https://plandar-planning.azurewebsites.net/api/planning",
+      "GETALLCOMPANYPLANNING": "https://plandar-planning.azurewebsites.net/api/planning/company/"
+    },
+    "aPLANNING" : {
+      "ADDAVAILABILITY": "http://localhost:7071/api/planning/availability/",
+      "CREATEPLANNING": "http://localhost:7071/api/planning",
+      "DELETEPLANNING": "http://localhost:7071/api/planning/",
+      "GETALLCOMPANYPLANNING": "http://localhost:7071/api/planning/company/"
+    }
   }
 }
